@@ -1,0 +1,474 @@
+
+function calcAvgHeight(data) {
+    // Calculate average height from received data. If no data, return null.
+    var sum = 0;
+    var count = 0;
+    for (var i in data) {
+        count++;
+        //console.log(i);
+        //console.log(data[i]);
+        sum += data[i].height;
+    }
+    if (count === 0) return null;
+    return (sum / count);
+    
+  }
+  
+  var avgHeight = calcAvgHeight({
+    Matt: { height: 174, weight: 69 },
+    Jason: { height: 190, weight: 103 }
+  });
+  //console.log(calcAvgHeight({}));
+
+  console.log(avgHeight);
+
+
+    for (let i in vectors) {
+    
+
+        let cur =  vectors[i];
+        // var x= cur[0];
+        // var y= cur[1];
+        // var z= cur[2];
+        // var shortest = Math.sqrt( x*x + y*y + z*z);
+        let shortest = findshortest(cur);
+        result.push(shortest);
+    }
+
+    shortest = Math.min(...result);
+
+    shortest = result.indexOf(shortest);
+
+    let dd = result.reduce( (prev, cur, index, arr ) =>  { 
+      let newvar = arr[prev] < arr[index] ?  prev : index;
+      // console.log (` ${prev} -- ${index} -- ${arr[prev]} -- ${arr[index]} -- ${newvar}`);
+      return newvar;
+      }, 0
+    ) ;
+    console.log(dd);
+
+
+
+
+function findShortest(vectors) {
+    // Write the code that goes here
+
+    let result = [];
+
+    function findshortest(cur) {
+      let x= cur[0];
+      let y= cur[1];
+      let z= cur[2];
+      let shortest = Math.sqrt( x*x + y*y + z*z);
+      // console.log( x + ' ' +  y + ' ' + z + ' ' + shortest);
+      return shortest;
+    }
+
+    let error;
+    error = vectors.filter(v => v.length !== 3);
+    if (! isEmpty(error) ) {
+      return Error('multiple vectors should be same length');
+    }
+    
+
+    vectors.map(v => result.push(findshortest(v))) ;
+
+
+    let shortest = Math.min(...result);
+    // console.log(shortest);
+
+    let myindex = result.indexOf(shortest);
+    // console.log(myindex);
+
+    return vectors[myindex];
+
+  }
+  
+  var vectors = [[8,6,7], [8,6,7], [3,3,3]];
+  var shortest = findShortest(vectors);
+
+ console.log(shortest);
+  
+
+ var input = [1,2,3,4,5];
+ var output = input.map((element, index, array) => {
+   //debugger;
+   return Math.pow(element, 2);
+ }, vectors);
+ console.log(output); // output: [1,4,9,16,25]
+
+    async function asyncTest() {
+      let response =  await setTimeout(function() {
+        console.log("inside timeout");
+      }, 5000);
+      console.log("inside asyncTest");
+    }
+
+    asyncTest();
+
+    console.log("outside asyncTest");
+
+
+//  function printString(string, callback){
+//   setTimeout(
+//     () => {
+//       console.log(string);
+//       callback();
+//     }, 
+//     Math.floor(Math.random() * 100) + 1
+//   );
+// }
+
+function printString(string){
+  return new Promise((resolve, reject) => {
+    setTimeout(
+      () => {
+       console.log(string)
+       resolve()
+      }, 
+      Math.ceil(Math.random() * 100)
+    )
+  })
+}
+
+// function printAll(){
+//   printString("A");
+//   printString("B");
+//   printString("C");
+// }
+
+// function printAll(){
+//   printString("A", () => {
+//     printString("B", () => {
+//       printString("C", () => {})
+//     })
+//   })
+// }
+
+// function printAll(){
+//   printString("A")
+//   .then(() => {
+//     return printString("B")
+//   })
+//   .then(() => {
+//     return printString("C")
+//   })
+// }
+
+async function printAll(){
+  await printString("A")
+  await printString("B")
+  await printString("C")
+}
+
+printAll();
+
+
+function addString1(previous, current, callback){
+  setTimeout(
+    () => {
+      callback((previous + ' ' + current))
+    }, 
+    Math.floor(Math.random() * 100) + 1
+  )
+}
+
+
+function addAll1(){
+  addString1('', 'A', result => {
+    addString1(result, 'B', result => {
+      addString1(result, 'C', result => {
+       console.log(result) // Prints out " A B C"
+      })
+    })
+  })
+}
+
+addAll1();
+
+function addString2(previous, current){
+  return new Promise((resolve, reject) => {
+    setTimeout(
+      () => {
+        resolve(previous + ' ' + current)
+      }, 
+      Math.floor(Math.random() * 100) + 1
+    )
+  })
+}
+
+
+function addAll2(){  
+  addString2('', 'A')
+  .then(result => {
+    return addString2(result, 'B')
+  })
+  .then(result => {
+    return addString2(result, 'C')
+  })
+  .then(result => {
+    console.log(result) // Prints out " A B C"
+  })
+}
+
+
+addAll2();
+
+
+async function addAll3(){
+  let toPrint = ''
+  toPrint = await addString2(toPrint, 'A')
+  toPrint = await addString2(toPrint, 'B')
+  toPrint = await addString2(toPrint, 'C')
+  console.log(toPrint) // Prints out " A B C"
+}
+
+addAll3();
+
+
+const arr = ['cat', 'dog', 'fish'];
+for (let i = 0; i < arr.length; i++) { 
+  console.log(arr[i])
+}
+
+arr.forEach(element => {
+  console.log(element);
+})
+
+for (let i in arr) {  
+  console.log(` ${i} ------- ${arr[i]} `);
+}
+
+async function asyncFunction() {
+
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(() => resolve("i am resolved!"), 1000)
+  });
+
+  const result = await promise; 
+  // wait till the promise resolves (*)
+
+  console.log(result); // "i am resolved!"
+}
+
+asyncFunction();
+
+console.log('before resolved');
+
+var names = ['Alice', 'Bob', 'Tiff', 'Bruce', 'Alice'];
+
+var countedNames = names.reduce(function (allNames, name) { 
+  if (name in allNames) {
+    allNames[name]++;
+  }
+  else {
+    allNames[name] = 1;
+  }
+  return allNames;
+}, {});
+
+console.log(countedNames);
+
+
+var people = [
+  { name: 'Alice', age: 21 },
+  { name: 'Max', age: 20 },
+  { name: 'Jane', age: 20 }
+];
+
+function groupBy(objectArray, property) {
+  return objectArray.reduce(function (acc, obj) {
+    var key = obj[property];
+    if (!acc[key]) {
+      acc[key] = [];
+    }
+    acc[key].push(obj);
+    return acc;
+  }, {});
+}
+
+var groupedPeople = groupBy(people, 'age');
+
+console.log(groupedPeople);
+
+var friends = [{
+  name: 'Anna',
+  books: ['Bible', 'Harry Potter'],
+  age: 21
+}, {
+  name: 'Bob',
+  books: ['War and peace', 'Romeo and Juliet'],
+  age: 26
+}, {
+  name: 'Alice',
+  books: ['The Lord of the Rings', 'The Shining'],
+  age: 18
+}];
+
+var allbooks = friends.reduce(function(accumulator, currentValue) {
+  return [...accumulator, ...currentValue.books];
+},[]);
+
+console.log(allbooks);
+
+let arr2 = [5, 2, 1, 2, 5, 4, 5, 4, 4, 4, 4];
+let result = arr2.sort().reduce((accumulator, current) => {
+    const length = accumulator.length
+    console.log(`${accumulator[length - 1]}  -------- ${current} `);
+    if (length === 0 || accumulator[length - 1] !== current) {
+        accumulator.push(current);
+    }
+    return accumulator;
+}, []);
+console.log(result); //[1,2,3,4,5]
+
+/**
+ * Runs promises from array of functions that can return promises
+ * in chained manner
+ *
+ * @param {array} arr - promise arr
+ * @return {Object} promise object
+ */
+function runPromiseInSequence(arr, input) {
+  return arr.reduce(
+    (promiseChain, currentFunction) => promiseChain.then(currentFunction),
+    Promise.resolve(input)
+  );
+}
+
+// promise function 1
+function p1(a) {
+  return new Promise((resolve, reject) => {
+    resolve(a * 5);
+  });
+}
+
+// promise function 2
+function p2(a) {
+  return new Promise((resolve, reject) => {
+    resolve(a * 2);
+  });
+}
+
+// function 3  - will be wrapped in a resolved promise by .then()
+function f3(a) {
+ return a * 3;
+}
+
+// promise function 4
+function p4(a) {
+  return new Promise((resolve, reject) => {
+    resolve(a * 4);
+  });
+}
+
+const promiseArr = [p1, p2, f3, p4];
+runPromiseInSequence(promiseArr, 10)
+  .then(console.log);   // 1200
+
+
+  const double = x => x + x;
+const triple = x => 3 * x;
+const quadruple = x => 4 * x;
+
+// Function composition enabling pipe functionality
+const pipe = (...functions) => input => functions.reduce(
+    (acc, fn) => fn(acc),
+    input
+);
+
+// Composed functions for multiplication of specific values
+const multiply6 = pipe(double, triple);
+const multiply9 = pipe(triple, triple);
+const multiply16 = pipe(quadruple, quadruple);
+const multiply24 = pipe(double, triple, quadruple);
+
+// Usage
+multiply6(6); // 36
+multiply9(9); // 81
+console.log(multiply16(16)); // 256
+multiply24(10); // 240
+
+async function showAvatar() {
+
+  // read our JSON
+  let response = await fetch('/user.json');
+  let user = await response.json();
+
+  // read github user
+  let githubResponse = await fetch(`https://api.github.com/users/${user.name}`);
+  let githubUser = await githubResponse.json();
+
+  // show the avatar
+  let img = document.createElement('img');
+  img.src = githubUser.avatar_url;
+  img.className = "promise-avatar-example";
+  document.body.append(img);
+
+  // wait 3 seconds
+  await new Promise((resolve, reject) => setTimeout(resolve, 3000));
+
+  img.remove();
+
+  return githubUser;
+}
+
+showAvatar();
+
+console.log((function factorial(n) {
+  return (n <= 1)
+    ? 1
+    : factorial(n - 1) * n;
+})(5) + ' ====== ');
+
+function makeAdder(x) {
+  return function(y) {
+    return x + y;
+  };
+}
+
+var add5 = makeAdder(5);
+var add10 = makeAdder(10);
+
+console.log(add5(2));  // 7
+console.log(add10(2)); // 12
+
+function timeout(duration) {  
+  return new Promise(function(resolve, reject) {  
+      setTimeout(resolve, duration);  
+  });  
+}  
+
+// Note: This code uses arrow function syntax  
+var m = timeout(5000).then(() => {  
+  console.log("done1!");  
+})  
+
+
+// Output (after 5 seconds):  
+// done!  
+
+function timeout2(duration) {  
+  return new Promise(function(resolve, reject) {  
+      setTimeout(reject, duration);  
+  });  
+}  
+
+var p = timeout2(5000).then(() => {  
+  console.log("done2!");  
+}).catch(err => {  
+  console.log("error!");  
+})  
+
+
+var arr3 = [3, 5, 7];
+arr3.foo = "hello";
+
+for (let i in arr3) {
+   console.log(i); // logs "0", "1", "2", "foo"
+}
+
+for (let i of arr3) {
+   console.log(i); // logs "3", "5", "7"
+    //it is does not log "3", "5", "7","hello"
+}
